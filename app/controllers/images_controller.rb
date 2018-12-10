@@ -5,9 +5,12 @@ class ImagesController < ApplicationController
 
   def index
     @scope ||= Image.all
+    @scope = @scope.reliable if params[:reliable?] == "1"
+
     options = {}
     options = options.merge(query: params[:filter]) if params[:filter].present?
     options = options.merge(filters: params[:f]) if params[:f].present?
+    
     @scope = Image.all_with_filter(options, @scope)
 
     if params[:images_smart_listing] && params[:images_smart_listing][:page].blank?
@@ -17,18 +20,11 @@ class ImagesController < ApplicationController
     @images ||= smart_listing_create :images, @scope, partial: "images/list", page_sizes: [10, 25, 50]
   end
 
-  def csv
-    respond_to do |format|
-      format.csv { send_data Image.all.to_csv, filename: "collection-#{Date.today}.csv" }
-    end
-  end
-
   def new
     @image = Image.new
   end
 
   def show
-    @image = Image.find(params[:id])
   end
 
   def create
@@ -50,8 +46,6 @@ class ImagesController < ApplicationController
   def destroy
     @image = Image.find(params[:id])
     @image.destroy
-
-    redirect_to images_path
   end
 
   def search
@@ -65,7 +59,6 @@ class ImagesController < ApplicationController
   end
 
   def image_params
-    params.require(:image).permit(:reliable, :source, :site)
+    params.require(:image).permit(:reliable, :source, :site, :category, :submission, :record_taken)
   end
-
 end

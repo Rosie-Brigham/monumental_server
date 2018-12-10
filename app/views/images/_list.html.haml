@@ -7,6 +7,7 @@
       %th.col-md-1= smart_listing.sortable "Site", "site"
       %th.col-md-1= smart_listing.sortable "Source", "source"
       %th.col-md-1= "Reliable"
+      %th.col-md-1= "category"
       %th.col-md-3= "Weather Info"
       %th.col-md-2= "actions"
     %tbody
@@ -20,6 +21,5 @@
   = smart_listing.paginate
   = smart_listing.pagination_per_page_links
 
-  = link_to "View CSV", csv_path(smart_listing.collection, format: :csv)
 - else
   %p.warning No records!

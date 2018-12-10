@@ -38,6 +38,8 @@ gem "smart_listing"
 gem "jquery-rails"
 gem 'haml', '~> 5.0', '>= 5.0.1'
 gem 'font-awesome-rails', '~> 4.5'
+gem 'paperclip'
+gem 'aws-sdk-s3'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -45,6 +47,13 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   # gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+  gem 'factory_bot'
+  gem "factory_bot_rails", "~> 4.0"
+  gem 'rspec'
+  gem 'rspec-rails'
+  gem 'rails-controller-testing'
+  gem 'database_cleaner'
+  gem 'dotenv-rails', groups: [:development, :test]
 end
 
 group :development do

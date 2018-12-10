@@ -1,12 +1,20 @@
 class Image < ApplicationRecord
-  validates :url, presence: true,
-                    length: { minimum: 5 }
+  has_attached_file :submission, 
+                    styles: {
+                      medium: '300x300>'
+                    }
 
+  # Validate the attached image is image/jpg, image/png, etc
+  validates_attachment_content_type :submission, :content_type => /\Aimage\/.*\Z/
+                  
   SITES = ["MACHRIE", "HOLYROOD"]
   SOURCE = ["TWITTER", "INSTAGRAM", "UPLOAD"]
+  MACHRIE_CATGORIES = %w(negligible light moderate heavy extensive n/a)
+
+  scope :reliable, -> { where(reliable: true) }
 
   def self.to_csv
-    attributes = %w{id url site watson_info weather_info reliable record_taken insta_user_id twitter_user_id source created_at updated_at}
+    attributes = %w{id site category record_taken url source watson_info weather_info reliable record_taken insta_user_id twitter_user_id created_at updated_at}
 
     CSV.generate(headers: true) do |csv|
       csv << attributes
